@@ -1,0 +1,116 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <style>
+        .container {
+            margin: 20px;
+        }
+        #cart {
+            list-style: none;
+            padding: 0;
+        }
+        .item {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+        }
+        .item img {
+            width: 100px;
+            height: 100px;
+            border-radius: 5px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+        }
+        /* Styling for the Buy Now button */
+        .buy-now-btn {
+            background-color: #4CAF50; /* Green */
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .buy-now-btn:hover {
+            background-color: #45a049; /* Darker green on hover */
+        }/* Your CSS styles here */
+    </style>
+    <script>
+        function redirectToPayment(total) {
+        window.location.href = `card_payment.html?total=${total}`;
+        }
+
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Cart Total</h1>
+        <ul id="cart"></ul>
+        <h3> <span id="total">Rs.0</span></h3>
+        <!-- Fancy Buy Now Button -->
+        <button class="buy-now-btn" onclick="redirectToDelivery()">Buy Now</button>
+    </div>
+    <script>
+        function removeFromCart(itemName) {
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            let existingItem = cart.find(item => item.name === itemName);
+            if (existingItem && existingItem.quantity > 1) {
+                existingItem.quantity -= 1;
+            } else {
+                cart = cart.filter(item => item.name !== itemName);
+            }
+            localStorage.setItem('cart', JSON.stringify(cart));
+            displayCart();
+        }
+
+        function displayCart() {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    let cartList = document.getElementById('cart');
+    let totalElement = document.getElementById('total');
+    let total = 0;
+    cartList.innerHTML = '';
+    cart.forEach(function(item) {
+        let li = document.createElement('li');
+        let itemTotal = item.price * item.quantity;
+        total += itemTotal;
+        li.innerHTML = `
+        <div class="item">
+            <img src="${item.imageUrl}" alt="${item.name}" style="width: 50px; height: 50px; border-radius: 50%;">
+            <div>
+                <span>${item.name} - Rs.${item.price} x ${item.quantity}</span>
+                <button onclick="removeFromCart('${item.name}')">Remove</button>
+            </div>
+            <div>Rs.${itemTotal}</div>
+        </div>
+        `;
+        cartList.appendChild(li);
+    });
+    totalElement.textContent = `Total: Rs.${total}`;
+}
+
+
+        // Redirect to Delivery Page Function
+        function redirectToDelivery() {
+            // Redirect the user to the delivery page (e.g., delv.html)
+            window.location.href = "delv.html";
+        }
+        function redirectToPayment(total) {
+        window.location.href = `jj.html?total=${total}`;
+    }
+        displayCart();// Your JavaScript code here
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Page</title>
+</head>
+<body>
+    <h1>Welcome to the Food Page</h1>
+    <div>
+        <p>Name: <span id="userName"></span></p>
+        <p>Hotal Name: <span id="hotalName"></span></p>
+        <p>Email: <span id="userEmail"></span></p>
+    </div>
+
+    <!-- Form to add dishes -->
+    <form id="addDishForm">
+        <input type="text" id="dishName" placeholder="Dish Name">
+        <input type="number" id="dishPrice" placeholder="Price">
+        <input type="file" id="dishImage" accept="image/*">
+        <button type="submit">Add Dish</button>
+    </form>
+
+    <script>
+        // Function to extract query parameters from the URL
+        function getQueryParam(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // Display user information
+        document.getElementById('userName').textContent = getQueryParam('name');
+        document.getElementById('hotalName').textContent = getQueryParam('hotalname');
+        document.getElementById('userEmail').textContent = getQueryParam('gmail');
+
+        // Form submission handler to add dishes
+        document.getElementById('addDishForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form submission
+
+            // Get dish details from the form
+            const dishName = document.getElementById('dishName').value;
+            const dishPrice = document.getElementById('dishPrice').value;
+            const dishImage = document.getElementById('dishImage').files[0];
+
+            // Your code to handle adding dishes goes here
+            // You can use AJAX or send a POST request to your server to add the dish to the database
+        });
+    </script>
+</body>
+</html>

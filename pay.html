@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f0f0f0;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+        }
+        #totalAmount {
+            font-weight: bold;
+        }
+        #cartDetails {
+            margin-top: 20px;
+        }
+        #cartDetails div {
+            margin-bottom: 10px;
+        }
+        button {
+            display: block;
+            margin: 20px auto 0;
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Payment Details</h1>
+        <p>Total Amount: <span id="totalAmount"></span></p>
+        <div id="cartDetails"></div>
+        <button id="payButton">Pay</button>
+    </div>
+
+    <script src="payment.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Retrieve item total from local storage
+            const itemTotal = parseFloat(localStorage.getItem('itemTotal'));
+            if (!isNaN(itemTotal)) {
+                // Display item total as the total amount
+                document.getElementById('totalAmount').textContent = 'Rs. ' + itemTotal.toFixed(2);
+
+                // Retrieve cart details from local storage
+                const cart = JSON.parse(localStorage.getItem('cart'));
+                const cartDetails = document.getElementById('cartDetails');
+                if (cart) {
+                    for (let item of cart) {
+                        let itemElement = document.createElement('div');
+                        itemElement.textContent = item.name + ' - Rs. ' + item.price.toFixed(2) + ' x ' + item.quantity;
+                        cartDetails.appendChild(itemElement);
+                    }
+                } else {
+                    cartDetails.textContent = 'No items in the cart';
+                }
+
+                // Add event listener to the Pay button
+                document.getElementById('payButton').addEventListener('click', function() {
+                    // Payment logic here
+                });
+            } else {
+                console.log('Item Total:', itemTotal);
+                console.log("Total amount is not available or invalid.");
+            }
+        });
+    </script>
+</body>
+</html>
